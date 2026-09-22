@@ -24,7 +24,6 @@ How the machine runs, per token position (see interp.py for the semantics):
 """
 from __future__ import annotations
 
-import json
 import math
 import os
 from dataclasses import dataclass
