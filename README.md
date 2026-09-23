@@ -1,5 +1,7 @@
 # llm-compute
 
+From wyager: Claude wrote everything here for (human-written) https://yager.io/neural/turing/turing.html
+
 A compiler from a tiny assembly language to the **exact weights of a standard
 Llama transformer**. No training. The output is an ordinary HuggingFace
 checkpoint (`config.json` + `model.safetensors` + `tokenizer.json`) that you run
