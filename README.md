@@ -102,6 +102,28 @@ The program itself is the second-layer MLP: the unit for instruction `i` fires
 when `pc == i` and writes the opcode flags, operand addresses, immediates,
 destination, jump target and `i+1` into the residual stream.
 
+## Animations
+
+`llmc.viz` renders a video of the model running a program. Every number on
+screen is read out of the real checkpoint's activations during a stock
+`transformers` forward pass: the residual stream after each layer, the past
+token each attention head picked, and which MLP units fired.
+
+![fib running on the transformer](media/fib-poster.png)
+
+- `media/fib.mp4` / `media/fib.gif`: fib(6), the first 12 tokens layer by layer, then full speed.
+- `media/sieve.mp4` / `media/sieve.gif`: the sieve, including pointer loads through the layer-4 head.
+
+```
+uv run python -m llmc.viz out/fib --mem n=6 -o media/fib.mp4 --gif media/fib.gif
+uv run python -m llmc.viz out/fib --mem n=6 --still 30 --stage 3 -o poster.png
+```
+
+`--slow N` sets how many tokens step through the layers one at a time, and
+`--hold` sets frames per layer during that phase. Arcs over the token strip show
+which earlier token each head attended to, labelled with what it was looking up.
+Needs `ffmpeg` on the path.
+
 ## Layout
 
 - `llmc/isa.py` — instructions as frozen dataclasses
@@ -111,6 +133,7 @@ destination, jump target and `i+1` into the residual stream.
 - `llmc/compile.py` — the compiler: residual layout, heads, step units, weights
 - `llmc/run.py` — runs a checkpoint with `transformers` and checks it
 - `llmc/debug.py` — prints the residual stream slot by slot at each layer
+- `llmc/viz.py` — renders activation videos and stills
 - `tests/` — end-to-end tests: model trace == interpreter trace
 
 ```

@@ -169,3 +169,12 @@ def parse_memory(spec: str, symbols: Mapping[str, int]) -> tuple[tuple[int, int]
         name, _, value = item.partition("=")
         pairs.append((_cell(name.strip(), symbols), _parse_int(value.strip(), "value")))
     return tuple(pairs)
+
+
+def instruction_lines(text: str) -> tuple[int, ...]:
+    """Source line index of each instruction, in program order (for highlighting a listing)."""
+    return tuple(
+        n for n, raw in enumerate(text.splitlines())
+        for line in [_strip(raw)]
+        if line and not line.startswith("let ") and not line.endswith(":")
+    )

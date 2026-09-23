@@ -14,3 +14,9 @@ dependencies = [
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "matplotlib>=3.11.2",
+    "pillow>=12.3.0",
+]
